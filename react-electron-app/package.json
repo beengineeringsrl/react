@@ -1,0 +1,77 @@
+{
+	"name": "cra-electron",
+	"description": "Electron JS Interpreter App",
+	"version": "0.2.7",
+	"private": true,
+	"dependencies": {
+		"cross-env": "6.0.2",
+		"electron-is-dev": "1.1.0",
+		"electron-log": "^3.0.8",
+		"react": "^16.13.1",
+		"react-dom": "^16.13.1"
+	},
+	"devDependencies": {
+		"concurrently": "4.1.2",
+		"electron": "8.1.1",
+		"electron-builder": "^22.4.1",
+		"eslint": "^6.8.0",
+		"eslint-plugin-import": "^3.1.2",
+		"eslint-plugin-jsx-a11y": "^6.2.3",
+		"eslint-plugin-react": "7.19.0",
+		"flow-bin": "^0.121.0",
+		"flow-typed": "^3.1.0",
+		"js-interpreter": "^2.2.0",
+		"react-scripts": "3.1.2",
+		"wait-on": "3.3.0"
+	},
+	"author": {
+		"name": "Christian Chia∑a",
+		"email": "chrchia∑a@gmail.com",
+		"url": "https://∑mathlang.com"
+	},
+	"build": {
+		"appId": "com.matlang.math",
+		"productName": "∑Math Lang",
+		"copyright": "Copyright © 2019 ${author}",
+		"mac": {
+			"category": "public.app-category.utilities"
+		},
+		"files": [
+			"build/**/*",
+			"node_modules/**/*"
+		],
+		"directories": {
+			"buildResources": "assets"
+		}
+	},
+	"main": "electron/electron.js",
+	"homepage": "./",
+	"scripts": {
+		"react-start": "react-scripts start",
+		"react-build": "react-scripts build",
+		"react-test": "react-scripts test --env=jsdom",
+		"react-eject": "react-scripts eject",
+		"electron-start": "electron .",
+		"electron-build": "electron-builder",
+		"start": "concurrently \"cross-env BROWSER=none yarn react-start \" \"wait-on http://localhost:3000 && electron .\"",
+		"start::offline": "concurrently \"cross-env BROWSER=none yarn react-start --offline \" \"wait-on http://localhost:3000 && electron .\"",
+		"lint": "yarn eslint ./src --fix",
+		"stylelint": "stylelint \"src/**/*.css\"",
+		"flow::check": "yarn run flow",
+		"type:install": "flow-typed install `echo $1`",
+		"build": "yarn react-build && yarn electron-build -m",
+		"clean": "rm -rf lib/ artifact/"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
+}

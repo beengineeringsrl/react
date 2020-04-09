@@ -1,16 +1,45 @@
+import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { API_REST_META } from "../Config/Constant";
 
-import React from 'react';
-import { Link, Route } from 'react-router-dom';
+const UserList = ({ match }) => {
+  const initialState = [];
+  const [users, setUsers] = useState(initialState);
 
-const Category = ({ match }) => {
-return( <div>   <ul>
-        <li><Link to={`${match.url}/shoes`}>Shoes</Link></li>
-        <li><Link to={`${match.url}/boots`}>Boots</Link></li>
-        <li><Link to={`${match.url}/footwear`}>Footwear</Link></li>
-   
-      </ul>
-      <Route path={`${match.path}/:name`} render= {({match}) =>( <div> <h3> {match.params.name} </h3></div>)}/>
-      </div>)
-}
+  useEffect(() => {
+    async function fetchUsers() {
+      const res = await fetch(API_REST_META.USER_ENDPOINT);
+      const json = await res.json();
+      setUsers(json);
+    }
+    fetchUsers();
+  }, []);
 
-export default Category;
+  return (
+      <div>
+    <ul>
+      {users.length > 0 &&
+        users.map((u) => {
+          return (
+            <li key={u.id}>
+              {u.id} - {u.name} - {u.username} - <Link to={`${match.url}/{u.id}`}>{u.name}</Link> - {u.phone} -{" "}
+              {u.website}
+            </li>
+          );
+        })}
+    </ul>
+          <Route
+        path={`${match.path}/1`}
+        render={({ match }) => (
+        <User {users[1]}/>
+        )}
+      />
+    </div>
+  );
+    </div>
+  );
+};
+
+export default UserList;
+
+
